@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MiniCarsales.DataStore;
 using MiniCarsales.Models;
 
 namespace MiniCarsales.Controllers
@@ -21,7 +22,7 @@ namespace MiniCarsales.Controllers
         // GET: api/Cars
         // List all cars
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCar()
+        public async Task<ActionResult<IEnumerable<Car>>> ListCars()
         {
             return await _context.Car.ToListAsync();
         }
@@ -49,7 +50,7 @@ namespace MiniCarsales.Controllers
         // POST: api/Cars
         // Create a new car
         [HttpPost]
-        public async Task<IActionResult> PostCar([FromBody] Car car)
+        public async Task<IActionResult> CreateCar([FromBody] Car car)
         {
             if (!ModelState.IsValid)
             {
@@ -63,8 +64,9 @@ namespace MiniCarsales.Controllers
         }
 
         // PUT: api/Cars/5
+        // Update a specific car
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar([FromRoute] int id, [FromBody] Car car)
+        public async Task<IActionResult> UpdateCar([FromRoute] int id, [FromBody] Car car)
         {
             if (!ModelState.IsValid)
             {
