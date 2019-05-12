@@ -12,14 +12,15 @@ namespace MiniCarsalesTest
 {
     public class CarsControllerTest
     {
-        private ApplicationDbContext InitializeDbContext(string testName)
+        // Setup testing database
+        private async Task<ApplicationDbContext> InitializeDbContext(string testName)
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                .UseInMemoryDatabase(databaseName: testName)
                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                .Options;
             var context = new ApplicationDbContext(options);
-            context.Car.Add(new Car
+            var car1 = new Car
             {
                 Type = nameof(Car),
                 Make = "Mazda",
@@ -28,8 +29,8 @@ namespace MiniCarsalesTest
                 Doors = 4,
                 Wheels = 4,
                 BodyType = "Sedan"
-            });
-            context.Car.Add(new Car
+            };
+            var car2 = new Car
             {
                 Type = nameof(Car),
                 Make = "Toyota",
@@ -38,8 +39,8 @@ namespace MiniCarsalesTest
                 Doors = 4,
                 Wheels = 4,
                 BodyType = "SUV"
-            });
-            context.Car.Add(new Car
+            };
+            var car3 = new Car
             {
                 Type = nameof(Car),
                 Make = "Audi",
@@ -48,8 +49,14 @@ namespace MiniCarsalesTest
                 Doors = 4,
                 Wheels = 4,
                 BodyType = "Hatch"
-            });
-            context.SaveChanges();
+            };
+            context.Car.Add(car1);
+            context.Car.Add(car2);
+            context.Car.Add(car3);
+            await context.SaveChangesAsync();
+            context.Entry(car1).State = EntityState.Detached;
+            context.Entry(car2).State = EntityState.Detached;
+            context.Entry(car3).State = EntityState.Detached;           
             return context;
         }
 
@@ -57,7 +64,7 @@ namespace MiniCarsalesTest
         public async Task TestListCars()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestListCars));
+            var context = await InitializeDbContext(nameof(TestListCars));
             var controller = new CarsController(context);
 
             // Act
@@ -75,7 +82,7 @@ namespace MiniCarsalesTest
         public async Task TestGetCar_NotFound()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestGetCar_NotFound));
+            var context = await InitializeDbContext(nameof(TestGetCar_NotFound));
             var controller = new CarsController(context);
             var carId = 7;
 
@@ -92,7 +99,7 @@ namespace MiniCarsalesTest
         public async Task TestGetCar_CorrectItem()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestGetCar_CorrectItem));
+            var context = await InitializeDbContext(nameof(TestGetCar_CorrectItem));
             var controller = new CarsController(context);
             var carId = 2;
 
@@ -112,7 +119,7 @@ namespace MiniCarsalesTest
         public async Task TestCreateCar_ItemInvalid()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestCreateCar_ItemInvalid));
+            var context = await InitializeDbContext(nameof(TestCreateCar_ItemInvalid));
             var controller = new CarsController(context);
             var newCar = new Car
             {
@@ -138,7 +145,7 @@ namespace MiniCarsalesTest
         public async Task TestCreateCar_ItemCreated()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestCreateCar_ItemCreated));
+            var context = await InitializeDbContext(nameof(TestCreateCar_ItemCreated));
             var controller = new CarsController(context);
             var newCar = new Car
             {
@@ -167,7 +174,7 @@ namespace MiniCarsalesTest
         public async Task TestUpdateCar_NotFound()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestUpdateCar_NotFound));
+            var context = await InitializeDbContext(nameof(TestUpdateCar_NotFound));
             var controller = new CarsController(context);
             var notFoundCar = new Car
             {
@@ -194,7 +201,7 @@ namespace MiniCarsalesTest
         public async Task TestUpdateCar_ItemUpdated()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestUpdateCar_ItemUpdated));
+            var context = await InitializeDbContext(nameof(TestUpdateCar_ItemUpdated));
             var controller = new CarsController(context);           
             var carToUpdate = new Car
             {
@@ -222,7 +229,7 @@ namespace MiniCarsalesTest
         public async Task TestDeleteCar_NotFound()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestDeleteCar_NotFound));
+            var context = await InitializeDbContext(nameof(TestDeleteCar_NotFound));
             var controller = new CarsController(context);
             var notFoundCarId = 7;
 
@@ -239,9 +246,9 @@ namespace MiniCarsalesTest
         public async Task TestDeleteCar_ItemDeleted()
         {
             // Arrange
-            var context = InitializeDbContext(nameof(TestDeleteCar_ItemDeleted));
+            var context = await InitializeDbContext(nameof(TestDeleteCar_ItemDeleted));
             var controller = new CarsController(context);
-            var carId = 3;
+            var carId = 3;            
 
             // Act            
             var response = await controller.DeleteCar(carId);            

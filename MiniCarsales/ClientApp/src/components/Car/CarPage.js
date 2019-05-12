@@ -15,10 +15,12 @@ class CarPage extends Component {
         const isCreate = "new" in querys;
         const carId = parseInt(querys.id) || 0;
         return (
-            <React.Fragment>
-                <h1>Car</h1>
-                <Row>
-                    <Col>
+            <React.Fragment>                
+                <Row className="my-3">
+                    <Col sm="8">
+                        <h1>Car</h1>
+                    </Col>
+                    <Col sm="4">
                         <CarDropDown />
                     </Col>
                 </Row>
