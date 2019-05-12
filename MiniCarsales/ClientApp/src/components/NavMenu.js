@@ -1,35 +1,27 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
-import { Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
+import { Nav, Navbar } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import './NavMenu.css';
 
 export default props => (
-  <Navbar inverse fixedTop fluid collapseOnSelect>
-    <Navbar.Header>
-      <Navbar.Brand>
-        <Link to={'/'}>MiniCarsales</Link>
-      </Navbar.Brand>
-      <Navbar.Toggle />
-    </Navbar.Header>
-    <Navbar.Collapse>
-      <Nav>
-        <LinkContainer to={'/'} exact>
-          <NavItem>
-            <Glyphicon glyph='home' /> Home
-          </NavItem>
-        </LinkContainer>
-        <LinkContainer to={'/counter'}>
-          <NavItem>
-            <Glyphicon glyph='education' /> Counter
-          </NavItem>
-        </LinkContainer>
-        <LinkContainer to={'/fetchdata'}>
-          <NavItem>
-            <Glyphicon glyph='th-list' /> Fetch data
-          </NavItem>
-        </LinkContainer>
-      </Nav>
-    </Navbar.Collapse>
-  </Navbar>
+    <Navbar bg="light" expand="lg" sticky="top" collapseOnSelect>
+        <Navbar.Brand>
+            <Link to={'/'}>Mini-Carsales</Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+            <Nav>
+                <LinkContainer to={'/'} exact>
+                    <Nav.Item>
+                        <Nav.Link href="/">Home</Nav.Link>
+                    </Nav.Item>
+                </LinkContainer>
+                <LinkContainer to={'/car'}>
+                    <Nav.Item>
+                        <Nav.Link href="/car">Car</Nav.Link>
+                    </Nav.Item>
+                </LinkContainer>
+            </Nav>
+        </Navbar.Collapse>
+    </Navbar>
 );

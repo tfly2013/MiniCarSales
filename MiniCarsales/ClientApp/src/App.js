@@ -1,14 +1,16 @@
 ﻿import React from 'react';
-import { Route } from 'react-router';
-import Layout from './components/Layout';
+import { Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import NavMenu from './components/NavMenu';
+import CarPage from './components/Car/CarPage';
 import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
 
 export default () => (
-  <Layout>
-    <Route exact path='/' component={Home} />
-    <Route path='/counter' component={Counter} />
-    <Route path='/fetchdata/:startDateIndex?' component={FetchData} />
-  </Layout>
+    <React.Fragment>
+        <NavMenu />
+        <Container>
+            <Route exact path='/' component={Home} />
+            <Route path='/car' component={CarPage} />
+        </Container>
+    </React.Fragment>
 );

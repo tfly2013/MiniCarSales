@@ -23,7 +23,7 @@ namespace MiniCarsales.Models
 
         [StringLength(50)]
         [Required]
-        public string  Model { get; set; }
+        public string Model { get; set; }
 
         [StringLength(30)]
         public string Engine { get; set; }

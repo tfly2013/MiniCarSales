@@ -17,6 +17,45 @@ namespace MiniCarsales.Controllers
         public CarsController(ApplicationDbContext context)
         {
             _context = context;
+            if (!_context.Car.Any())
+            {
+                AddInitialData(context);
+            }
+        }
+
+        private void AddInitialData(ApplicationDbContext context)
+        {
+            context.Car.Add(new Car
+            {
+                Type = nameof(Car),
+                Make = "Mazda",
+                Model = "6",
+                Engine = "Diesel",
+                Doors = 4,
+                Wheels = 4,
+                BodyType = "Sedan"
+            });
+            context.Car.Add(new Car
+            {
+                Type = nameof(Car),
+                Make = "Toyota",
+                Model = "RAV4",
+                Engine = "Petrol",
+                Doors = 4,
+                Wheels = 4,
+                BodyType = "SUV"
+            });
+            context.Car.Add(new Car
+            {
+                Type = nameof(Car),
+                Make = "Audi",
+                Model = "A5",
+                Engine = "Petrol",
+                Doors = 4,
+                Wheels = 4,
+                BodyType = "Hatch"
+            });
+            context.SaveChanges();
         }
 
         // GET: api/Cars
